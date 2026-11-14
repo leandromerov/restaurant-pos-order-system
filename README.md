@@ -7,6 +7,7 @@
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-WebSockets-010101?logo=socketdotio&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?logo=javascript&logoColor=black)
 ![Tests](https://img.shields.io/badge/tests-node%3Atest-success)
+![CI](https://github.com/leandromerov/restaurant-pos-order-system/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## The problem
@@ -21,6 +22,12 @@ This project is a minimal, self-hostable POS that runs on any laptop or Raspberr
 - **Kitchen display (KDS)** – orders appear instantly in *New → Preparing → Ready* columns with a waiting-time timer.
 - **Live feedback** – the waiter is notified as soon as the kitchen marks an order as ready.
 - **Thermal printing** – each new order generates an 80 mm ESC/POS receipt sent to any network printer (port 9100). Without a printer, the receipt is simulated in the console.
+
+## Screenshots
+
+| Waiter station | Kitchen display |
+|---|---|
+| ![Waiter station](docs/waiter-station.png) | ![Kitchen display](docs/kitchen-display.png) |
 
 ## Architecture
 
@@ -37,7 +44,8 @@ flowchart LR
 |---|---|
 | `src/orders.js` | Domain logic: validation, VAT calculation (prices in cents), order status state machine |
 | `src/receipt.js` | 42-column receipt formatting, ESC/POS commands, network printing with timeout |
-| `src/server.js` | REST API, WebSocket broadcasting, centralised error handling |
+| `src/app.js` | Server factory: REST API, WebSocket broadcasting, centralised error handling |
+| `src/server.js` | Entry point: reads environment variables and starts listening |
 | `public/` | Framework-free frontend (vanilla JS modules + CSS) for the waiter and kitchen screens |
 
 **Key design decisions**
@@ -91,7 +99,7 @@ Open both pages side by side and send an order to see the real-time updates.
 npm test
 ```
 
-The domain and receipt logic are covered with Node's built-in test runner (no extra dependencies).
+Node's built-in test runner covers the domain logic, receipt formatting and the REST API end to end (the server starts on a random port, and the tests drive a full order lifecycle). CI runs the suite on Node 20 and 22 on every push.
 
 ## Roadmap
 
