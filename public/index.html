@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POS · Waiter Station</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>🍽️ Waiter Station</h1>
+    <div><span id="connection" class="status-dot"></span><a href="/kitchen.html" target="_blank">Open kitchen display →</a></div>
+  </header>
+
+  <main class="pos">
+    <section id="menu" aria-label="Menu"></section>
+
+    <aside class="ticket" aria-label="Current order">
+      <h2>Current order</h2>
+      <label for="table">Table</label>
+      <input id="table" type="number" min="1" max="99" value="1" />
+      <ul id="lines"></ul>
+      <div class="total"><span>Total</span><span id="total">0,00 €</span></div>
+      <label for="notes">Notes for the kitchen</label>
+      <textarea id="notes" rows="2" maxlength="200" placeholder="e.g. no onions"></textarea>
+      <br /><br />
+      <button id="send" class="btn" disabled>Send to kitchen</button>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="/pos.js"></script>
+</body>
+</html>
